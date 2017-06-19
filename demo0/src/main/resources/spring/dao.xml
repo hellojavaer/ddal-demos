@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context-3.1.xsd"
+       default-autowire="byName">
+
+    <context:component-scan base-package="org.hellojavaer.ddal.demos.demo0"/>
+    <context:property-placeholder location="classpath:/config/db.properties"/>
+
+    <bean name="wDs00" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.w.username}"/>
+        <property name="password" value="${jdbc.w.password}"/>
+        <property name="initialSize" value="0"/>
+        <property name="maxActive" value="20"/>
+        <property name="minIdle" value="10"/>
+        <property name="maxWait" value="60000"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <property name="minEvictableIdleTimeMillis" value="25200000"/>
+        <property name="removeAbandoned" value="false"/>
+        <property name="removeAbandonedTimeout" value="1800"/>
+        <property name="logAbandoned" value="true"/>
+        <property name="filters" value="stat"/>
+    </bean>
+    <bean name="rDs00" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.r0.username}"/>
+        <property name="password" value="${jdbc.r0.password}"/>
+        <property name="initialSize" value="0"/>
+        <property name="maxActive" value="20"/>
+        <property name="minIdle" value="10"/>
+        <property name="maxWait" value="60000"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <property name="minEvictableIdleTimeMillis" value="25200000"/>
+        <property name="removeAbandoned" value="false"/>
+        <property name="removeAbandonedTimeout" value="1800"/>
+        <property name="logAbandoned" value="true"/>
+        <property name="filters" value="stat"/>
+    </bean>
+
+    <!--DDAL-BEGIN-->
+    <bean id="idRule" class="org.hellojavaer.ddal.ddr.shard.simple.SpelShardRouteRule">
+        <property name="scRouteRule" value="{#scName}_{#format('%02d', #sdValue % 2)}"></property>
+        <property name="tbRouteRule" value="{#tbName}_{#format('%04d', #sdValue % 8)}"></property>
+    </bean>
+
+    <bean id="shardRouter" class="org.hellojavaer.ddal.ddr.shard.simple.SimpleShardRouter">
+        <property name="routeRuleBindings">
+            <list>
+                <bean class="org.hellojavaer.ddal.ddr.shard.simple.SimpleShardRouteRuleBinding">
+                    <property name="scName" value="base"></property>
+                    <property name="tbName" value="user"></property>
+                    <property name="rule" ref="idRule"></property>
+                    <property name="sdKey" value="id"></property>
+                    <property name="sdValues" value="[0~7]"></property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="shardParser" class="org.hellojavaer.ddal.ddr.shard.simple.SimpleShardParser">
+        <property name="shardRouter" ref="shardRouter"></property>
+        <property name="sqlParser">
+            <bean class="org.hellojavaer.ddal.ddr.sqlparse.cache.LRUSQLParserCache">
+                <property name="capacity" value="1000"/>
+                <property name="sqlParser">
+                    <bean class="org.hellojavaer.ddal.jsqlparser.JSQLParser"></bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <!--<bean id="dataSourceManager" class="org.hellojavaer.ddal.ddr.datasource.manager.SingleDataSourceManager">-->
+    <!--<property name="dataSource" ref="wDs00"></property>-->
+    <!--</bean>-->
+    <bean id="dataSourceManager" class="org.hellojavaer.ddal.ddr.datasource.manager.rw.DefaultReadWriteDataSourceManager">
+        <property name="readOnlyDataSourceMonitorServer">
+            <bean class="org.hellojavaer.ddal.ddr.datasource.manager.rw.monitor.mbean.MBeanReadOnlyDataSourceMonitorServer"></bean>
+        </property>
+        <property name="writeOnlyDataSources">
+            <list>
+                <bean class="org.hellojavaer.ddal.ddr.datasource.manager.rw.WriteOnlyDataSourceBinding">
+                    <property name="scNames" value="base_0[0~1]"></property>
+                    <property name="dataSource" ref="wDs00"></property>
+                </bean>
+            </list>
+        </property>
+        <property name="readOnlyDataSources">
+            <list>
+                <bean class="org.hellojavaer.ddal.ddr.datasource.manager.rw.ReadOnlyDataSourceBinding">
+                    <property name="scNames" value="base_0[0~1]"></property>
+                    <property name="dataSources">
+                        <list>
+                            <bean class="org.hellojavaer.ddal.ddr.datasource.WeightedDataSource">
+                                <property name="name" value="rDs00"></property>
+                                <property name="weight" value="9"></property>
+                                <property name="dataSource" ref="rDs00"></property>
+                            </bean>
+                            <bean class="org.hellojavaer.ddal.ddr.datasource.WeightedDataSource">
+                                <property name="name" value="wDs00"></property>
+                                <property name="weight" value="1"></property>
+                                <property name="dataSource" ref="wDs00"></property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="dataSource" class="org.hellojavaer.ddal.ddr.datasource.jdbc.DefaultDDRDataSource">
+        <property name="dataSourceManager" ref="dataSourceManager"></property>
+        <property name="shardParser" ref="shardParser"></property>
+    </bean>
+    <!-- config where to get id sequence -->
+    <bean id="idGetter" class="org.hellojavaer.ddal.sequence.db.DatabaseIdGetter">
+        <property name="dataSource" ref="wDs00"/>
+        <property name="scName" value="base_00"/>
+    </bean>
+    <!-- DDAL-END-->
+
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="defaultTimeout" value="6000"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath*:/sqlmap/*.xml"/>
+        <property name="configLocation" value="/spring/mybatis.xml"/>
+    </bean>
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+</beans>

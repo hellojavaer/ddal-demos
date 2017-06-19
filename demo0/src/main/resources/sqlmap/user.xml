@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+
+    <sql id="columns">
+		id as id,
+		name as name
+    </sql>
+    <sql id="table">
+    	user
+    </sql>
+
+    <insert id="add" parameterType="org.hellojavaer.ddal.demos.demo0.entity.UserEntity">
+        INSERT INTO <include refid="table"/> (id, name)
+        VALUES  (#{id}, #{name})
+    </insert>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM <include refid="table"/>
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updateById" parameterType="org.hellojavaer.ddal.demos.demo0.entity.UserEntity">
+        UPDATE  <include refid="table"/>
+        SET
+        <if test="name != null">
+            name = #{name}
+        </if>
+        WHERE id= #{id}
+    </update>
+
+    <select id="getById" parameterType="long" resultType="org.hellojavaer.ddal.demos.demo0.entity.UserEntity">
+        SELECT  <include refid="columns"/>
+        FROM  <include refid="table"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="scanQueryAll" resultType="org.hellojavaer.ddal.demos.demo0.entity.UserEntity">
+        SELECT  <include refid="columns"/>
+        FROM  <include refid="table"/>
+    </select>
+</mapper>
