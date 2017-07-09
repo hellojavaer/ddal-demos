@@ -82,7 +82,9 @@
     <!--<bean id="dataSourceManager" class="org.hellojavaer.ddal.ddr.datasource.manager.SingleDataSourceManager">-->
     <!--<property name="dataSource" ref="wDs00"></property>-->
     <!--</bean>-->
-    <bean id="dataSourceManager" class="org.hellojavaer.ddal.ddr.datasource.manager.rw.DefaultReadWriteDataSourceManager">
+    <bean id="dataSourceManager"
+          class="org.hellojavaer.ddal.ddr.datasource.manager.rw.DefaultReadWriteDataSourceManager">
+        <property name="shardRouter" ref="shardRouter"/>
         <property name="readOnlyDataSourceMonitorServer">
             <bean class="org.hellojavaer.ddal.ddr.datasource.manager.rw.monitor.mbean.MBeanReadOnlyDataSourceMonitorServer"></bean>
         </property>

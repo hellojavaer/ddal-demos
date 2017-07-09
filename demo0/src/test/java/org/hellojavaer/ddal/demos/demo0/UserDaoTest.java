@@ -23,9 +23,8 @@
  */
 package org.hellojavaer.ddal.demos.demo0;
 
-import org.hellojavaer.ddal.ddr.shard.RouteInfo;
-import org.hellojavaer.ddal.ddr.shard.ShardRouteContext;
-import org.hellojavaer.ddal.ddr.shard.ShardRouteHelper;
+import com.alibaba.fastjson.JSON;
+import org.hellojavaer.ddal.ddr.shard.*;
 import org.hellojavaer.ddal.demos.demo0.dao.UserDao;
 import org.hellojavaer.ddal.demos.demo0.entity.UserEntity;
 import org.junit.Test;
@@ -38,6 +37,7 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -48,7 +48,10 @@ import java.util.List;
 public class UserDaoTest {
 
     @Autowired
-    private UserDao userDao;
+    private UserDao     userDao;
+
+    @Autowired
+    private ShardRouter shardRouter;
 
     @Test
     @Transactional
@@ -96,7 +99,7 @@ public class UserDaoTest {
         // step1: check scan query
         String scName = "base";
         String tbName = "user";
-        List<RouteInfo> routeInfos = ShardRouteHelper.getConfiguredRouteInfos(scName, tbName);
+        List<RouteInfo> routeInfos = shardRouter.getRouteInfos(scName, tbName);
         for (RouteInfo routeInfo : routeInfos) {
             // when sql expression doesn't contain shard value, use ShardRouteContext to set route information
             ShardRouteContext.setRouteInfo(scName, tbName, routeInfo);
@@ -107,12 +110,24 @@ public class UserDaoTest {
                     System.out.println(item);
                 }
             }
+            ShardRouteContext.clearContext();
         }
-        ShardRouteContext.clear();
 
         // step2: remove test data
         for (UserEntity userEntity : userEntities) {
             userDao.deleteById(userEntity.getId());
+        }
+    }
+
+    @Test
+    public void groupRouteInfo() {
+        List<Long> ids = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            ids.add((long) i);
+        }
+        Map<RouteInfo, List<Long>> map = ShardRouteUtils.groupSdValuesByRouteInfo(shardRouter, "base", "user", ids);
+        for (Map.Entry<RouteInfo, List<Long>> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + JSON.toJSONString(entry.getValue()));
         }
     }
 

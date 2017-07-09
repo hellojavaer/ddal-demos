@@ -26,9 +26,9 @@ package org.hellojavaer.ddal.demos.demo0.dao.impl;
 import org.apache.ibatis.session.SqlSession;
 import org.hellojavaer.ddal.demos.demo0.dao.UserDao;
 import org.hellojavaer.ddal.demos.demo0.entity.UserEntity;
-import org.hellojavaer.ddal.sequence.DefaultSequence;
 import org.hellojavaer.ddal.sequence.IdGetter;
 import org.hellojavaer.ddal.sequence.Sequence;
+import org.hellojavaer.ddal.sequence.SingleSequence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -52,7 +52,7 @@ public class UserDaoImpl implements UserDao {
 
     @PostConstruct
     public void init() {
-        sequence = new DefaultSequence("base", "user", 100, 5, 200, idGetter);
+        sequence = new SingleSequence("base", "user", 100, 5, 200, idGetter, 1);
     }
 
     @Override

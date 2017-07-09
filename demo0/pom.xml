@@ -16,17 +16,22 @@
         <dependency>
             <groupId>org.hellojavaer.ddal</groupId>
             <artifactId>ddal-ddr</artifactId>
-            <version>1.0.0.M2</version>
+            <version>1.0.0.M3</version>
         </dependency>
         <dependency>
             <groupId>org.hellojavaer.ddal</groupId>
             <artifactId>ddal-jsqlparser</artifactId>
-            <version>1.0.0.M2</version>
+            <version>1.0.0.M3</version>
         </dependency>
         <dependency>
             <groupId>org.hellojavaer.ddal</groupId>
             <artifactId>ddal-sequence</artifactId>
-            <version>1.0.0.M2</version>
+            <version>1.0.0.M3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hellojavaer.ddal</groupId>
+            <artifactId>ddal-spring</artifactId>
+            <version>1.0.0.M3</version>
         </dependency>
         <!-- DDAL-END -->
         <dependency>
@@ -70,6 +75,11 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.29</version>
         </dependency>
         <!-- spring -->
         <dependency>
