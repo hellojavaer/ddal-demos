@@ -22,9 +22,9 @@ CREATE TABLE sequence (
     PRIMARY KEY (id),
     KEY idx_table_name_schema_name_deleted_select_order (table_name,schema_name,deleted,select_order) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `sequence` (`id`, `schema_name`, `table_name`, `begin_value`, `next_value`, `end_value`, `select_order`, `version`, `deleted`)
+VALUES (1, 'base', 'user', 0, 0, NULL, 0, 0, 0);
 
-INSERT INTO `sequence` (`id`, `group_name`, `logical_table_name`, `select_order`, `begin_value`, `end_value`, `current_value`, `version`, `disabled`)
-VALUES (0, 'base', 'user', 0, NULL, NULL, 0, 0, 0);
 CREATE TABLE `user_0000`(`id` int(11) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
 CREATE TABLE `user_0002`(`id` int(11) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
 CREATE TABLE `user_0004`(`id` int(11) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
@@ -39,15 +39,7 @@ CREATE TABLE `user_0007`(`id` int(11) NOT NULL, `name` varchar(32) NOT NULL, PRI
 
 ```
 
-- 2. initialize sequence table data
-
-```
-INSERT INTO `sequence` (`id`, `schema_name`, `table_name`, `begin_value`, `next_value`, `end_value`, `select_order`, `version`, `deleted`)
-VALUES (1, 'base', 'user', 0, 0, NULL, 0, 0, 0);
-
-```
-
-- 3. modify database config in file 'db.properties'
+- 2. modify database config in file 'db.properties'
 
 ```
 jdbc.url=jdbc:mysql://127.0.0.1:3306/base_00?verifyServerCertificate=false&useSSL=true
@@ -57,7 +49,7 @@ jdbc.r0.username=r_base
 jdbc.r0.password=password
 ```
 
-- 4. run and check test cases
+- 3. run and check test cases
 
 ```
 org.hellojavaer.ddal.demos.demo0.UserDaoTest.baseTestForCRUD
