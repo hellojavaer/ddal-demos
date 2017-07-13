@@ -25,17 +25,17 @@ CREATE TABLE sequence (
 INSERT INTO `sequence` (`id`, `schema_name`, `table_name`, `begin_value`, `next_value`, `end_value`, `select_order`, `version`, `deleted`)
 VALUES (1, 'base', 'user', 0, 0, NULL, 0, 0, 0);
 
-CREATE TABLE `user_0000`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
-CREATE TABLE `user_0002`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
-CREATE TABLE `user_0004`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
-CREATE TABLE `user_0006`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
+CREATE TABLE `user_0000`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
+CREATE TABLE `user_0002`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
+CREATE TABLE `user_0004`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
+CREATE TABLE `user_0006`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
 
 CREATE DATABASE `base_01` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 use base_01;
-CREATE TABLE `user_0001`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
-CREATE TABLE `user_0003`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
-CREATE TABLE `user_0005`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
-CREATE TABLE `user_0007`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
+CREATE TABLE `user_0001`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
+CREATE TABLE `user_0003`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
+CREATE TABLE `user_0005`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
+CREATE TABLE `user_0007`(`id` int(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;
 ```
 
 - 2. modify database config in file 'db.properties'
