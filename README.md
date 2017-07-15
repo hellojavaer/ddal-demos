@@ -4,6 +4,24 @@
 
 ## Demo0
 
+- 0. design a scene
+
+```
+Assume that you need to route 'base' schema and 'user' table,
+and the schema's route rule is "{#scName}_{#format('%02d', #sdValue % 2)}",
+the table's route rule is "{#tbName}_{#format('%04d', #sdValue % 8)}"
+
+By useing the route rule, we can get the following physical tables:
+base_00.user_0000;
+base_00.user_0002;
+base_00.user_0004;
+base_00.user_0005;
+base_01.user_0001;
+base_01.user_0003;
+base_01.user_0005;
+base_01.user_0007;	
+```
+
 - 1. initialize database and table
 
 ```
