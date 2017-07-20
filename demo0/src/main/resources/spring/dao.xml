@@ -123,15 +123,15 @@
         <property name="shardParser" ref="shardParser"></property>
     </bean>
 
-    <!-- config where to get id sequence -->
-    <bean id="sequence" class="org.hellojavaer.ddal.sequence.SingleSequence" init-method="init">
+    <!-- sequence -->
+    <bean class="org.hellojavaer.ddal.sequence.SingleSequence" init-method="init">
         <property name="schemaName" value="base"/>
         <property name="tableName" value="user"/>
         <property name="step" value="100"/>
         <property name="cacheNSteps" value="5"/>
-        <property name="initTimeout" value="100"/>
+        <property name="initTimeout" value="3000"/>
         <property name="idRangeGetter">
-            <bean class="org.hellojavaer.ddal.sequence.DatabaseIdRangeGetter">
+            <bean class="org.hellojavaer.ddal.sequence.DatabaseIdRangeGetter" init-method="init">
                 <property name="dataSource" ref="wDs00"/>
                 <property name="scName" value="base_00"/>
             </bean>
