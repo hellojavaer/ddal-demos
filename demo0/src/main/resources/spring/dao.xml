@@ -122,11 +122,22 @@
         <property name="dataSourceManager" ref="dataSourceManager"></property>
         <property name="shardParser" ref="shardParser"></property>
     </bean>
+
     <!-- config where to get id sequence -->
-    <bean id="idGetter" class="org.hellojavaer.ddal.sequence.db.DatabaseIdGetter">
-        <property name="dataSource" ref="wDs00"/>
-        <property name="scName" value="base_00"/>
+    <bean id="sequence" class="org.hellojavaer.ddal.sequence.SingleSequence" init-method="init">
+        <property name="schemaName" value="base"/>
+        <property name="tableName" value="user"/>
+        <property name="step" value="100"/>
+        <property name="cacheNSteps" value="5"/>
+        <property name="initTimeout" value="100"/>
+        <property name="idRangeGetter">
+            <bean class="org.hellojavaer.ddal.sequence.DatabaseIdRangeGetter">
+                <property name="dataSource" ref="wDs00"/>
+                <property name="scName" value="base_00"/>
+            </bean>
+        </property>
     </bean>
+
     <!-- DDAL-END-->
 
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

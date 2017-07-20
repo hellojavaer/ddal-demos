@@ -26,14 +26,12 @@ package org.hellojavaer.ddal.demos.demo0.dao.impl;
 import org.apache.ibatis.session.SqlSession;
 import org.hellojavaer.ddal.demos.demo0.dao.UserDao;
 import org.hellojavaer.ddal.demos.demo0.entity.UserEntity;
-import org.hellojavaer.ddal.sequence.IdGetter;
 import org.hellojavaer.ddal.sequence.Sequence;
-import org.hellojavaer.ddal.sequence.SingleSequence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -46,18 +44,11 @@ public class UserDaoImpl implements UserDao {
     private SqlSession sqlSession;
 
     @Autowired
-    private IdGetter   idGetter;
-
     private Sequence   sequence;
-
-    @PostConstruct
-    public void init() {
-        sequence = new SingleSequence("base", "user", 100, 5, 200, idGetter, 1);
-    }
 
     @Override
     public Long add(UserEntity userEntity) {
-        Long id = sequence.nextValue();
+        Long id = sequence.nextValue(100, TimeUnit.MILLISECONDS);
         userEntity.setId(id);
         sqlSession.insert("user.add", userEntity);
         return id;

@@ -16,22 +16,18 @@
         <dependency>
             <groupId>org.hellojavaer.ddal</groupId>
             <artifactId>ddal-ddr</artifactId>
-            <version>1.0.0.M3</version>
         </dependency>
         <dependency>
             <groupId>org.hellojavaer.ddal</groupId>
             <artifactId>ddal-jsqlparser</artifactId>
-            <version>1.0.0.M3</version>
         </dependency>
         <dependency>
             <groupId>org.hellojavaer.ddal</groupId>
             <artifactId>ddal-sequence</artifactId>
-            <version>1.0.0.M3</version>
         </dependency>
         <dependency>
             <groupId>org.hellojavaer.ddal</groupId>
             <artifactId>ddal-spring</artifactId>
-            <version>1.0.0.M3</version>
         </dependency>
         <!-- DDAL-END -->
         <dependency>
