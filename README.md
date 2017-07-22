@@ -78,7 +78,7 @@ org.hellojavaer.ddal.demos.demo0.UserDaoTest.scanQueryAll
 org.hellojavaer.ddal.demos.demo0.UserDaoTest.groupRouteInfo
 ```
 
-## Demo0
+## Demo1
 
 - 0. initialize database and table
 
