@@ -147,7 +147,7 @@
         <property name="defaultTimeout" value="6000"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    <tx:annotation-driven proxy-target-class="true" transaction-manager="txManager"/>
+    <tx:annotation-driven transaction-manager="txManager"/>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
