@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 hellojavaer
+ * Copyright (c) 2017 hellojavaer@gmail.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ public class InitDatabaseSqlBuilder {
     public static void main(String[] args) {
         ShardRouter shardRouter = buildShardRouter();
         String createDatabaseSql = "CREATE DATABASE IF NOT EXISTS `%s` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
-        String createTableSql = "CREATE TABLE `%s`(`id` int(11) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;";
+        String createTableSql = "CREATE TABLE `%s`(`id` bigint(20) NOT NULL, `name` varchar(32) NOT NULL, PRIMARY KEY (`id`), KEY `idx_name` (`name`) USING BTREE ) ENGINE=InnoDB;";
         build(shardRouter, createDatabaseSql, createTableSql, "base", "user");
     }
 

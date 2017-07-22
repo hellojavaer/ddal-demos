@@ -21,57 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.hellojavaer.ddal.demos.demo0.dao.impl;
+package org.hellojavaer.ddal.demos.demo1.dao.impl;
 
-import org.hellojavaer.ddal.demos.demo0.dao.UserDao;
-import org.hellojavaer.ddal.demos.demo0.entity.UserEntity;
-import org.hellojavaer.ddal.sequence.Sequence;
+import org.hellojavaer.ddal.demos.demo1.dao.RoleDao;
+import org.hellojavaer.ddal.demos.demo1.entitry.RoleEntity;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 /**
  *
- * @author <a href="mailto:hellojavaer@gmail.com">Kaiming Zou</a>,created on 15/06/2017.
+ * @author <a href="mailto:hellojavaer@gmail.com">Kaiming Zou</a>,created on 22/07/2017.
  */
 @Repository
-public class UserDaoImpl implements UserDao {
+public class RoleImpl implements RoleDao {
 
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
 
-    @Autowired
-    private Sequence           sequence;
-
     @Override
-    public Long add(UserEntity userEntity) {
-        Long id = sequence.nextValue(100, TimeUnit.MILLISECONDS);
-        userEntity.setId(id);
-        sqlSessionTemplate.insert("user.add", userEntity);
-        return id;
+    public Long add(RoleEntity roleEntity) {
+        sqlSessionTemplate.insert("role.add", roleEntity);
+        return roleEntity.getId();
     }
 
     @Override
     public int deleteById(Long id) {
-        return sqlSessionTemplate.delete("user.deleteById", id);
+        return sqlSessionTemplate.delete("role.deleteById", id);
     }
 
     @Override
-    public int updateById(UserEntity userEntity) {
-        return sqlSessionTemplate.update("user.updateById", userEntity);
+    public int updateById(RoleEntity roleEntity) {
+        return sqlSessionTemplate.update("role.updateById", roleEntity);
     }
 
     @Override
-    public UserEntity getById(Long id) {
-        return sqlSessionTemplate.selectOne("user.getById", id);
+    public RoleEntity getById(Long id) {
+        return sqlSessionTemplate.selectOne("role.getById", id);
     }
-
-    @Override
-    public List<UserEntity> scanQueryAll() {
-        return sqlSessionTemplate.selectList("user.scanQueryAll");
-    }
-
 }

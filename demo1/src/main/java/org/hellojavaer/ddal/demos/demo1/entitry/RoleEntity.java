@@ -21,13 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.hellojavaer.ddal.demos.demo0.entity;
+package org.hellojavaer.ddal.demos.demo1.entitry;
 
 /**
  *
- * @author <a href="mailto:hellojavaer@gmail.com">Kaiming Zou</a>,created on 16/06/2017.
+ * @author <a href="mailto:hellojavaer@gmail.com">Kaiming Zou</a>,created on 22/07/2017.
  */
-public class UserEntity {
+public class RoleEntity {
 
     private Long   id;
     private String name;
@@ -50,6 +50,6 @@ public class UserEntity {
 
     @Override
     public String toString() {
-        return "UserEntity{" + "id=" + id + ", name='" + name + '\'' + '}';
+        return "RoleEntity{" + "id=" + id + ", name='" + name + '\'' + '}';
     }
 }

@@ -9,9 +9,40 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>demo0</module>
+        <module>demo1</module>
     </modules>
 
     <packaging>pom</packaging>
+
+    <developers>
+        <developer>
+            <id>hellojavaer</id>
+            <name>Kaiming Zou</name>
+            <email>hellojavaer@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>8</timezone>
+        </developer>
+    </developers>
+    <scm>
+        <url>https://github.com/hellojavaer/ddal-demos.git</url>
+        <connection>scm:git:https://github.com/hellojavaer/ddal-demos.git</connection>
+    </scm>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencyManagement>
         <dependencies>
@@ -31,20 +62,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

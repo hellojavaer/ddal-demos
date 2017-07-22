@@ -13,7 +13,7 @@
           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
        default-autowire="byName">
 
-    <context:component-scan base-package="org.hellojavaer.ddal.demos.demo0"/>
+    <context:component-scan base-package="org.hellojavaer.ddal.demos.demo1"/>
     <context:property-placeholder location="classpath:/config/db.properties"/>
 
     <bean name="wDs00" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
@@ -54,20 +54,12 @@
     </bean>
 
     <!--DDAL-BEGIN-->
-    <bean id="idRule" class="org.hellojavaer.ddal.ddr.shard.simple.SpelShardRouteRule">
-        <property name="scRouteRule" value="{#scName}_{#format('%02d', #sdValue % 2)}"></property>
-        <property name="tbRouteRule" value="{#tbName}_{#format('%04d', #sdValue % 8)}"></property>
-    </bean>
-
     <bean id="shardRouter" class="org.hellojavaer.ddal.ddr.shard.simple.SimpleShardRouter">
         <property name="routeRuleBindings">
             <list>
                 <bean class="org.hellojavaer.ddal.ddr.shard.simple.SimpleShardRouteRuleBinding">
-                    <property name="scName" value="base"></property>
-                    <property name="tbName" value="user"></property>
-                    <property name="rule" ref="idRule"></property>
-                    <property name="sdKey" value="id"></property>
-                    <property name="sdValues" value="[0~7]"></property>
+                    <property name="scName" value="acl"></property>
+                    <property name="tbName" value="role"></property>
                 </bean>
             </list>
         </property>
@@ -83,19 +75,15 @@
             </bean>
         </property>
     </bean>
-    <!--<bean id="dataSourceManager" class="org.hellojavaer.ddal.ddr.datasource.manager.SingleDataSourceManager">-->
-    <!--<property name="dataSource" ref="wDs00"></property>-->
-    <!--</bean>-->
     <bean id="dataSourceManager"
           class="org.hellojavaer.ddal.ddr.datasource.manager.rw.DefaultReadWriteDataSourceManager">
-        <property name="shardRouter" ref="shardRouter"/>
         <property name="readOnlyDataSourceMonitorServer">
             <bean class="org.hellojavaer.ddal.ddr.datasource.manager.rw.monitor.mbean.MBeanReadOnlyDataSourceMonitorServer"></bean>
         </property>
         <property name="writeOnlyDataSources">
             <list>
                 <bean class="org.hellojavaer.ddal.ddr.datasource.manager.rw.WriteOnlyDataSourceBinding">
-                    <property name="scNames" value="base_0[0~1]"></property>
+                    <property name="scNames" value="acl"></property>
                     <property name="dataSource" ref="wDs00"></property>
                 </bean>
             </list>
@@ -103,7 +91,7 @@
         <property name="readOnlyDataSources">
             <list>
                 <bean class="org.hellojavaer.ddal.ddr.datasource.manager.rw.ReadOnlyDataSourceBinding">
-                    <property name="scNames" value="base_0[0~1]"></property>
+                    <property name="scNames" value="acl"></property>
                     <property name="dataSources">
                         <list>
                             <bean class="org.hellojavaer.ddal.ddr.datasource.WeightedDataSource">
@@ -124,22 +112,6 @@
     </bean>
     <bean id="dataSource" class="org.hellojavaer.ddal.ddr.datasource.jdbc.DefaultDDRDataSource">
         <property name="dataSourceManager" ref="dataSourceManager"></property>
-        <property name="shardParser" ref="shardParser"></property>
-    </bean>
-
-    <!-- sequence -->
-    <bean class="org.hellojavaer.ddal.sequence.SingleSequence" init-method="init">
-        <property name="schemaName" value="base"/>
-        <property name="tableName" value="user"/>
-        <property name="step" value="100"/>
-        <property name="cacheNSteps" value="5"/>
-        <property name="initTimeout" value="3000"/>
-        <property name="idRangeGetter">
-            <bean class="org.hellojavaer.ddal.sequence.DatabaseIdRangeGetter" init-method="init">
-                <property name="dataSource" ref="wDs00"/>
-                <property name="scName" value="base_00"/>
-            </bean>
-        </property>
     </bean>
     <!-- DDAL-END-->
 
@@ -147,7 +119,7 @@
         <property name="defaultTimeout" value="6000"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    <tx:annotation-driven proxy-target-class="true" transaction-manager="txManager"/>
+    <tx:annotation-driven transaction-manager="txManager"/>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>

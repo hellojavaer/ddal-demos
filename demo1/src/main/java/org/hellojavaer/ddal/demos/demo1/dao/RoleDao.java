@@ -21,35 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.hellojavaer.ddal.demos.demo0.entity;
+package org.hellojavaer.ddal.demos.demo1.dao;
+
+import org.hellojavaer.ddal.demos.demo1.entitry.RoleEntity;
 
 /**
  *
- * @author <a href="mailto:hellojavaer@gmail.com">Kaiming Zou</a>,created on 16/06/2017.
+ * @author <a href="mailto:hellojavaer@gmail.com">Kaiming Zou</a>,created on 22/07/2017.
  */
-public class UserEntity {
+public interface RoleDao {
 
-    private Long   id;
-    private String name;
+    /**
+     * 
+     * @param roleEntity
+     * @return
+     */
+    Long add(RoleEntity roleEntity);
 
-    public Long getId() {
-        return id;
-    }
+    /**
+     *
+     * @param id
+     * @return effective lines
+     */
+    int deleteById(Long id);
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    /**
+     * 
+     * @param roleEntity
+     * @return
+     */
+    int updateById(RoleEntity roleEntity);
 
-    public String getName() {
-        return name;
-    }
+    /**
+     *
+     * @param id
+     * @return
+     */
+    RoleEntity getById(Long id);
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "UserEntity{" + "id=" + id + ", name='" + name + '\'' + '}';
-    }
 }
