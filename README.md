@@ -24,7 +24,7 @@ base_01.user_0007;
 
 - 1. initialize database and table
 
-use [InitDatabaseSqlBuilder.java](https://github.com/hellojavaer/ddal-demos/blob/master/demo0/src/main/java/org/hellojavaer/ddal/demos/demo0/init/InitDatabaseSqlBuilder.java) to build the following sql
+use [InitDatabaseSqlBuilder](https://github.com/hellojavaer/ddal-demos/blob/master/demo0/src/main/java/org/hellojavaer/ddal/demos/demo0/init/InitDatabaseSqlBuilder.java) to build the following sql
 
 ```
 CREATE DATABASE IF NOT EXISTS `base_00` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
