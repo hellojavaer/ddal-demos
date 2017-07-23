@@ -34,7 +34,7 @@ import org.springframework.stereotype.Repository;
  * @author <a href="mailto:hellojavaer@gmail.com">Kaiming Zou</a>,created on 22/07/2017.
  */
 @Repository
-public class RoleImpl implements RoleDao {
+public class RoleDaoImpl implements RoleDao {
 
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
