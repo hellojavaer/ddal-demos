@@ -90,8 +90,8 @@ public class InitDatabaseSqlBuilder {
         List<SimpleShardRouteRuleBinding> bindings = new ArrayList<>();
         // def route rule
         SpelShardRouteRule idRouteRule = new SpelShardRouteRule();
-        idRouteRule.setScRouteRule("{#scName}_{#format('%02d', #sdValue % 2)}");
-        idRouteRule.setTbRouteRule("{#tbName}_{#format('%04d', #sdValue % 8)}");
+        idRouteRule.setScRouteRule("{scName}_{format('%02d', sdValue % 2)}");
+        idRouteRule.setTbRouteRule("{tbName}_{format('%04d', sdValue % 8)}");
 
         // bind route rule to logical table
         SimpleShardRouteRuleBinding user = new SimpleShardRouteRuleBinding();

@@ -55,8 +55,8 @@
 
     <!--DDAL-BEGIN-->
     <bean id="idRule" class="org.hellojavaer.ddal.ddr.shard.simple.SpelShardRouteRule">
-        <property name="scRouteRule" value="{#scName}_{#format('%02d', #sdValue % 2)}"></property>
-        <property name="tbRouteRule" value="{#tbName}_{#format('%04d', #sdValue % 8)}"></property>
+        <property name="scRouteRule" value="{scName}_{format('%02d', sdValue % 2)}"></property>
+        <property name="tbRouteRule" value="{tbName}_{format('%04d', sdValue % 8)}"></property>
     </bean>
 
     <bean id="shardRouter" class="org.hellojavaer.ddal.ddr.shard.simple.SimpleShardRouter">
@@ -67,7 +67,7 @@
                     <property name="tbName" value="user"></property>
                     <property name="rule" ref="idRule"></property>
                     <property name="sdKey" value="id"></property>
-                    <property name="sdValues" value="[0~7]"></property>
+                    <property name="sdValues" value="[0..7]"></property>
                 </bean>
             </list>
         </property>
@@ -95,7 +95,7 @@
         <property name="writeOnlyDataSources">
             <list>
                 <bean class="org.hellojavaer.ddal.ddr.datasource.manager.rw.WriteOnlyDataSourceBinding">
-                    <property name="scNames" value="base_0[0~1]"></property>
+                    <property name="scNames" value="base_0[0..1]"></property>
                     <property name="dataSource" ref="wDs00"></property>
                 </bean>
             </list>
@@ -103,7 +103,7 @@
         <property name="readOnlyDataSources">
             <list>
                 <bean class="org.hellojavaer.ddal.ddr.datasource.manager.rw.ReadOnlyDataSourceBinding">
-                    <property name="scNames" value="base_0[0~1]"></property>
+                    <property name="scNames" value="base_0[0..1]"></property>
                     <property name="dataSources">
                         <list>
                             <bean class="org.hellojavaer.ddal.ddr.datasource.WeightedDataSource">
@@ -134,8 +134,8 @@
         <property name="step" value="100"/>
         <property name="cacheNSteps" value="5"/>
         <property name="initTimeout" value="3000"/>
-        <property name="idRangeGetter">
-            <bean class="org.hellojavaer.ddal.sequence.DatabaseIdRangeGetter" init-method="init">
+        <property name="sequenceRangeGetter">
+            <bean class="org.hellojavaer.ddal.sequence.DatabaseSequenceRangeGetter" init-method="init">
                 <property name="dataSource" ref="wDs00"/>
                 <property name="scName" value="base_00"/>
             </bean>
